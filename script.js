@@ -15,7 +15,9 @@ const navLink = document.querySelector('.nav__link');
 const tabs = document.querySelectorAll('.operations__tab');
 const tabsContainer = document.querySelector('.operations__tab-container');
 const tabsContent = document.querySelectorAll('.operations__content');
+const header = document.querySelector('.header');
 
+// Modal
 const openModal = function (event) {
   event.preventDefault();
   modal.classList.remove('hidden');
@@ -40,6 +42,7 @@ document.addEventListener('keydown', function (e) {
   }
 });
 
+// Button click scrolling
 btnScrollTo.addEventListener('click', event => {
   // const sec1Coordinates = section1.getBoundingClientRect();
 
@@ -76,6 +79,7 @@ navLinksParent.addEventListener('click', event => {
   document.querySelector(scrollToId).scrollIntoView({ behavior: 'smooth' });
 });
 
+// Tab button click event
 tabsContainer.addEventListener('click', event => {
   event.preventDefault();
   const clicked = event.target.closest('.operations__tab');
@@ -93,6 +97,7 @@ tabsContainer.addEventListener('click', event => {
     .classList.add('operations__content--active');
 });
 
+// Nav link hover event
 const handleNavHover = (event, opacity) => {
   const link = event.target;
   if (!link.classList.contains('nav__link')) return;
@@ -110,3 +115,45 @@ const handleNavHover = (event, opacity) => {
 
 nav.addEventListener('mouseover', event => handleNavHover(event, 0.5));
 nav.addEventListener('mouseout', event => handleNavHover(event, 1));
+
+// Scrolling nav sticky
+const stickyNav = entries => {
+  const [entry] = entries;
+  if (!entry.isIntersecting) {
+    nav.classList.add('sticky');
+  } else {
+    nav.classList.remove('sticky');
+  }
+};
+
+const headerObserver = new IntersectionObserver(stickyNav, {
+  root: null,
+  rootMargin: `-${nav.clientHeight}px`,
+  threshold: 0,
+});
+
+headerObserver.observe(header);
+
+// const obsCallback = entries => {
+//   entries.forEach(entry => {
+//     console.log(entry);
+//   });
+// };
+
+// const observer = new IntersectionObserver(obsCallback, {
+//   root: null,
+//   threshold: 0.1,
+// });
+
+// observer.observe(section1);
+
+// const intitialCoords = section1.getBoundingClientRect();
+
+// window.addEventListener('scroll', event => {
+//   console.log(window.scrollY);
+//   if (window.scrollY > intitialCoords.top) {
+//     nav.classList.add('sticky');
+//   } else {
+//     nav.classList.remove('sticky');
+//   }
+// });
