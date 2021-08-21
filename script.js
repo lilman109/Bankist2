@@ -9,6 +9,7 @@ const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
 const btnScrollTo = document.querySelector('.btn--scroll-to');
 const section1 = document.querySelector('#section--1');
+const nav = document.querySelector('.nav');
 const navLinksParent = document.querySelector('.nav__links');
 const navLink = document.querySelector('.nav__link');
 const tabs = document.querySelectorAll('.operations__tab');
@@ -91,3 +92,21 @@ tabsContainer.addEventListener('click', event => {
     .querySelector(`.operations__content--${clicked.dataset.tab}`)
     .classList.add('operations__content--active');
 });
+
+const handleNavHover = (event, opacity) => {
+  const link = event.target;
+  if (!link.classList.contains('nav__link')) return;
+
+  const siblings = link.closest('.nav').querySelectorAll('.nav__link');
+  const logo = link.closest('.nav').querySelector('img');
+
+  siblings.forEach(sibling => {
+    if (sibling === link) return;
+    sibling.style.opacity = opacity;
+  });
+
+  logo.style.opacity = opacity;
+};
+
+nav.addEventListener('mouseover', event => handleNavHover(event, 0.5));
+nav.addEventListener('mouseout', event => handleNavHover(event, 1));
