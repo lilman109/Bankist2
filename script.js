@@ -11,6 +11,9 @@ const btnScrollTo = document.querySelector('.btn--scroll-to');
 const section1 = document.querySelector('#section--1');
 const navLinksParent = document.querySelector('.nav__links');
 const navLink = document.querySelector('.nav__link');
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContainer = document.querySelector('.operations__tab-container');
+const tabsContent = document.querySelectorAll('.operations__content');
 
 const openModal = function (event) {
   event.preventDefault();
@@ -70,4 +73,21 @@ navLinksParent.addEventListener('click', event => {
 
   const scrollToId = event.target.getAttribute('href');
   document.querySelector(scrollToId).scrollIntoView({ behavior: 'smooth' });
+});
+
+tabsContainer.addEventListener('click', event => {
+  event.preventDefault();
+  const clicked = event.target.closest('.operations__tab');
+  if (!clicked) return;
+
+  tabs.forEach(tab => tab.classList.remove('operations__tab--active'));
+  tabsContent.forEach(content =>
+    content.classList.remove('operations__content--active')
+  );
+
+  clicked.classList.add('operations__tab--active');
+
+  document
+    .querySelector(`.operations__content--${clicked.dataset.tab}`)
+    .classList.add('operations__content--active');
 });
