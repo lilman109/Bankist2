@@ -18,6 +18,9 @@ const tabsContent = document.querySelectorAll('.operations__content');
 const header = document.querySelector('.header');
 const allSections = document.querySelectorAll('.section');
 const imgTargets = document.querySelectorAll('img[data-src]');
+const slides = document.querySelectorAll('.slide');
+const slideBtnRight = document.querySelector('.slider__btn--right');
+const slideBtnLeft = document.querySelector('.slider__btn--left');
 
 // Modal
 const openModal = function (event) {
@@ -183,8 +186,6 @@ const loadImg = (entries, observer) => {
   const [entry] = entries;
   if (!entry.isIntersecting) return;
 
-  console.log(entry);
-
   entry.target.src = entry.target.dataset.src;
 
   entry.target.addEventListener('load', event => {
@@ -201,3 +202,43 @@ const imgObserver = new IntersectionObserver(loadImg, {
 });
 
 imgTargets.forEach(img => imgObserver.observe(img));
+
+// Slides
+let curSlide = 0;
+const maxSlide = slides.length;
+
+const goToSlide = slide => {
+  slides.forEach((s, index) => {
+    s.style.transform = `translateX(${100 * (index - slide)}%)`;
+  });
+};
+
+goToSlide(0);
+
+const goToNextSlide = () => {
+  if (curSlide === maxSlide - 1) {
+    curSlide = 0;
+  } else {
+    curSlide++;
+  }
+
+  goToSlide(curSlide);
+};
+
+const goToPrevSlide = () => {
+  if (curSlide === 0) {
+    curSlide = maxSlide - 1;
+  } else {
+    curSlide--;
+  }
+
+  goToSlide(curSlide);
+};
+
+slideBtnRight.addEventListener('click', event => {
+  goToNextSlide();
+});
+
+slideBtnLeft.addEventListener('click', event => {
+  goToPrevSlide();
+});
