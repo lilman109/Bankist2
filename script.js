@@ -242,3 +242,8 @@ slideBtnRight.addEventListener('click', event => {
 slideBtnLeft.addEventListener('click', event => {
   goToPrevSlide();
 });
+
+document.addEventListener('keydown', event => {
+  if (event.key === 'ArrowLeft') goToPrevSlide();
+  if (event.key === 'ArrowRight') goToNextSlide();
+});
